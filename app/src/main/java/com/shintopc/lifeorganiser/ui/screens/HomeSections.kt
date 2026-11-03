@@ -25,17 +25,16 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.shintopc.lifeorganiser.ui.theme.EmergencyAccent
 import com.shintopc.lifeorganiser.ui.theme.FinanceAccent
 import com.shintopc.lifeorganiser.ui.theme.ReminderAccent
 import com.shintopc.lifeorganiser.ui.theme.TaskAccent
 import java.time.format.DateTimeFormatter
 import java.time.ZoneId
 import java.time.Instant
-
-// --- Colors ---
-val CardBackground = Color.White
 
 @Composable
 fun CategoryHeader(title: String, icon: ImageVector, color: Color) {
@@ -53,7 +52,7 @@ fun CategoryHeader(title: String, icon: ImageVector, color: Color) {
                     imageVector = icon,
                     contentDescription = null,
                     tint = color,
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.size(15.dp)
                 )
             }
         }
@@ -73,84 +72,143 @@ fun FinanceSummaryRow(state: HomeState) {
     val isPositive = balance >= 0
 
     Surface(
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(18.dp),
         color = MaterialTheme.colorScheme.surface,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f)),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = 6.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            // Header Row: Title & Status Badge
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CategoryHeader("Finance Snapshot", Icons.Default.Home, FinanceAccent)
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = if (isPositive) TaskAccent.copy(alpha = 0.12f) else Color(0xFFF43F5E).copy(alpha = 0.12f)
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Surface(
+                        modifier = Modifier.size(28.dp),
+                        shape = CircleShape,
+                        color = FinanceAccent.copy(alpha = 0.15f)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Default.Home,
+                                contentDescription = null,
+                                tint = FinanceAccent,
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = if (isPositive) "Net Positive" else "Deficit",
-                        fontSize = 11.sp,
+                        text = "Today's Finances",
+                        style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
-                        color = if (isPositive) TaskAccent else Color(0xFFF43F5E),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Main Balance Highlight
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
-            ) {
-                Column {
-                    Text(
-                        text = "TODAY'S NET",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.0.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
-                    )
-                    Text(
-                        text = "₹${String.format("%,d", balance.toInt())}",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = (-0.5).sp,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
-                // Income & Expense Badges
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = TaskAccent.copy(alpha = 0.1f),
-                        border = BorderStroke(1.dp, TaskAccent.copy(alpha = 0.2f))
-                    ) {
-                        Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)) {
-                            Text("INCOME", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = TaskAccent)
-                            Text("+₹${state.todayIncome.toInt()}", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TaskAccent)
-                        }
-                    }
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = if (isPositive) TaskAccent.copy(alpha = 0.15f) else EmergencyAccent.copy(alpha = 0.15f)
+                ) {
+                    Text(
+                        text = if (isPositive) "+ Net Positive" else "Deficit",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = if (isPositive) TaskAccent else EmergencyAccent,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                    )
+                }
+            }
 
-                    Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = Color(0xFFF43F5E).copy(alpha = 0.1f),
-                        border = BorderStroke(1.dp, Color(0xFFF43F5E).copy(alpha = 0.2f))
-                    ) {
-                        Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)) {
-                            Text("EXPENSE", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = Color(0xFFF43F5E))
-                            Text("-₹${state.todayExpense.toInt()}", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFFF43F5E))
-                        }
-                    }
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // 3 Equal-Width Metrics Columns: Never overlaps
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Net Balance Column
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "NET",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "₹${String.format("%,d", balance.toInt())}",
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+
+                // Vertical Divider
+                Box(
+                    modifier = Modifier
+                        .height(28.dp)
+                        .width(1.dp)
+                        .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                )
+
+                // Income Column
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "INCOME",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = TaskAccent
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "+₹${state.todayIncome.toInt()}",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = TaskAccent,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+
+                // Vertical Divider
+                Box(
+                    modifier = Modifier
+                        .height(28.dp)
+                        .width(1.dp)
+                        .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                )
+
+                // Expense Column
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(
+                        text = "EXPENSE",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = EmergencyAccent
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "-₹${state.todayExpense.toInt()}",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = EmergencyAccent,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         }
@@ -167,14 +225,14 @@ private fun CategorySection(
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(1.dp, color.copy(alpha = 0.2f)),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)),
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp)
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             CategoryHeader(title, icon, color)
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
             content()
         }
     }
@@ -204,7 +262,7 @@ fun CategorizedTimelineView(
         // 2. Bank/EMI
         val loans = items.filterIsInstance<TimelineItem.Loan>()
         if (loans.isNotEmpty()) {
-            CategorySection("Bank / EMI", Icons.Default.Home, Color(0xFFF43F5E)) {
+            CategorySection("Bank / EMI", Icons.Default.Home, EmergencyAccent) {
                 loans.forEach { CompactItemRow(it) }
             }
         }
@@ -227,14 +285,14 @@ fun CategorizedTimelineView(
 
         if (items.isEmpty()) {
             Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                shape = RoundedCornerShape(14.dp),
+                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = "No items scheduled for this period.",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -251,7 +309,7 @@ fun CompactItemRow(item: TimelineItem) {
     val (title, color) = when (item) {
         is TimelineItem.Task -> {
             val taskColor = when (item.data.priority) {
-                com.shintopc.lifeorganiser.data.model.TaskPriority.HIGH -> Color(0xFFF43F5E)
+                com.shintopc.lifeorganiser.data.model.TaskPriority.HIGH -> EmergencyAccent
                 com.shintopc.lifeorganiser.data.model.TaskPriority.MEDIUM -> ReminderAccent
                 com.shintopc.lifeorganiser.data.model.TaskPriority.LOW -> TaskAccent
             }
@@ -265,35 +323,35 @@ fun CompactItemRow(item: TimelineItem) {
             val isBorrow = item.data.type == "TOOK"
             val prefix = if (isBorrow) "Borrowed from" else "Lent to"
             val amountStr = "₹${item.data.amount.toInt()}"
-            val debtColor = if (isBorrow) Color(0xFFF43F5E) else TaskAccent
+            val debtColor = if (isBorrow) EmergencyAccent else TaskAccent
             "$prefix ${item.data.personName}: $amountStr" to debtColor
         }
         is TimelineItem.Loan -> {
             val amountStr = "₹${item.data.emiAmount.toInt()}"
             val due = Instant.ofEpochMilli(item.dueDate).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("MMM dd"))
-            "${item.data.title} (EMI): $amountStr (Due $due)" to Color(0xFFF43F5E)
+            "${item.data.title} (EMI): $amountStr (Due $due)" to EmergencyAccent
         }
     }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Time Column
-        Column(modifier = Modifier.width(68.dp)) {
+        // Time & Date Column (Fixed width, never overflows)
+        Column(modifier = Modifier.width(72.dp)) {
             Text(
                 text = timeStr,
                 style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.primary
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = dateDay,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                fontSize = 10.sp
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 11.sp
             )
         }
 
@@ -314,12 +372,12 @@ fun CompactItemRow(item: TimelineItem) {
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 1,
-            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f)
         )
     }
     Divider(
-        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f),
+        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
         thickness = 0.5.dp
     )
 }
@@ -328,8 +386,8 @@ fun CompactItemRow(item: TimelineItem) {
 fun TimelineList(items: List<TimelineItem>, isToday: Boolean = false) {
     if (items.isEmpty()) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+            shape = RoundedCornerShape(14.dp),
+            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
         ) {
             Box(
@@ -339,7 +397,7 @@ fun TimelineList(items: List<TimelineItem>, isToday: Boolean = false) {
                 Text(
                     text = "No items scheduled.",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -361,7 +419,7 @@ fun TimelineItemRow(item: TimelineItem, isLast: Boolean, isToday: Boolean) {
     val (title, _, color) = when (item) {
         is TimelineItem.Task -> {
             val taskColor = when (item.data.priority) {
-                com.shintopc.lifeorganiser.data.model.TaskPriority.HIGH -> Color(0xFFF43F5E)
+                com.shintopc.lifeorganiser.data.model.TaskPriority.HIGH -> EmergencyAccent
                 com.shintopc.lifeorganiser.data.model.TaskPriority.MEDIUM -> ReminderAccent
                 com.shintopc.lifeorganiser.data.model.TaskPriority.LOW -> TaskAccent
             }
@@ -375,13 +433,13 @@ fun TimelineItemRow(item: TimelineItem, isLast: Boolean, isToday: Boolean) {
             val isBorrow = item.data.type == "TOOK"
             val prefix = if (isBorrow) "Borrowed from" else "Lent to"
             val amountStr = "₹${item.data.amount.toInt()}"
-            val debtColor = if (isBorrow) Color(0xFFF43F5E) else TaskAccent
+            val debtColor = if (isBorrow) EmergencyAccent else TaskAccent
             Triple("$prefix ${item.data.personName}: $amountStr", Icons.Default.Star, debtColor)
         }
         is TimelineItem.Loan -> {
             val amountStr = "₹${item.data.emiAmount.toInt()}"
             val due = Instant.ofEpochMilli(item.dueDate).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("MMM dd"))
-            Triple("${item.data.title} (EMI): $amountStr (Due $due)", Icons.Default.Star, Color(0xFFF43F5E))
+            Triple("${item.data.title} (EMI): $amountStr (Due $due)", Icons.Default.Star, EmergencyAccent)
         }
     }
 
@@ -399,7 +457,7 @@ fun TimelineItemRow(item: TimelineItem, isLast: Boolean, isToday: Boolean) {
                     modifier = Modifier
                         .width(2.dp)
                         .height(56.dp)
-                        .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
+                        .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
                 )
             }
         }
@@ -412,13 +470,15 @@ fun TimelineItemRow(item: TimelineItem, isLast: Boolean, isToday: Boolean) {
                 text = title,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = if (isToday) timeStr else "$dateStr • $timeStr",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -438,9 +498,9 @@ fun CollapsibleSection(
     )
 
     Surface(
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(18.dp),
         color = MaterialTheme.colorScheme.surface,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f)),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
@@ -463,18 +523,17 @@ fun CollapsibleSection(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        letterSpacing = (-0.2).sp,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Surface(
                         shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+                        color = MaterialTheme.colorScheme.primaryContainer
                     ) {
                         Text(
                             text = "$itemCheck",
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                         )
                     }
@@ -483,13 +542,13 @@ fun CollapsibleSection(
                 Surface(
                     modifier = Modifier.size(32.dp),
                     shape = CircleShape,
-                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    color = MaterialTheme.colorScheme.surfaceVariant
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowDown,
                             contentDescription = if (expanded) "Collapse" else "Expand",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
                                 .size(20.dp)
                                 .rotate(rotationAngle)

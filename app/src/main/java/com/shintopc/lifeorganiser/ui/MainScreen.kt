@@ -1,39 +1,22 @@
 package com.shintopc.lifeorganiser.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.shintopc.lifeorganiser.ui.components.AppBottomBar
 import com.shintopc.lifeorganiser.ui.components.AppTopBar
 import com.shintopc.lifeorganiser.ui.components.Screen
-import com.shintopc.lifeorganiser.ui.components.Sidebar
-import com.shintopc.lifeorganiser.ui.theme.BluePrimary
-import com.shintopc.lifeorganiser.ui.theme.LightBlueSidebar
 import com.shintopc.lifeorganiser.ui.screens.HomeScreen
-import com.shintopc.lifeorganiser.ui.screens.SettingsScreen
 import com.shintopc.lifeorganiser.ui.screens.TasksScreen
-
-// ... imports ...
 import com.shintopc.lifeorganiser.ui.settings.SettingsViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.material3.MaterialTheme
@@ -70,18 +53,24 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            if (showSystemBars) {
+            // Only show global AppTopBar on screens that do not provide their own dedicated TopAppBar
+            val screensWithOwnTopBar = setOf(Screen.Settings, Screen.ManageModules)
+            if (showSystemBars && !screensWithOwnTopBar.contains(currentScreen)) {
                 AppTopBar(
                     title = when (currentScreen) {
-                        Screen.Home -> "LIFE ORGANISER"
-                        Screen.Hub -> "Explore"
+                        Screen.Home -> "Life Organiser"
+                        Screen.Hub -> "Explore Modules"
                         Screen.Finance -> "Finance"
                         Screen.Tasks -> "Tasks"
-                        Screen.ManageModules -> "Manage Modules"
-                        else -> currentScreen.name // Fallback
+                        Screen.Notes -> "Notes"
+                        Screen.Documents -> "Documents"
+                        Screen.Passwords -> "Passwords Vault"
+                        Screen.Reminders -> "Reminders"
+                        Screen.EmergencyInfo -> "Emergency Info"
+                        else -> currentScreen.name
                     },
                     currentScreen = currentScreen,
-                    onToggleSidebar = { currentScreen = Screen.Hub }, // Open Hub 
+                    onToggleSidebar = { currentScreen = Screen.Hub },
                     onNavigateBack = { currentScreen = Screen.Home }
                 )
             }
@@ -109,7 +98,6 @@ fun MainScreen(
                     onNavigate = { currentScreen = it },
                     menuOrder = menuOrder
                 )
-
                 Screen.Settings -> com.shintopc.lifeorganiser.ui.screens.SettingsScreen(
                     settingsViewModel = settingsViewModel,
                     onNavigateToManageModules = { currentScreen = Screen.ManageModules }

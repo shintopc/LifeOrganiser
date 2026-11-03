@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/shintopc/LifeOrganiser/releases/tag/v1.0.0">
-    <img src="https://img.shields.io/badge/Release-v1.0.0-4F46E5?style=for-the-badge&logo=android" alt="Release v1.0.0" />
+  <a href="https://github.com/shintopc/LifeOrganiser/releases/tag/v1.0.1">
+    <img src="https://img.shields.io/badge/Release-v1.0.1-4F46E5?style=for-the-badge&logo=android" alt="Release v1.0.1" />
   </a>
   <img src="https://img.shields.io/badge/Platform-Android_7.0%2B_(API_24--34)-10B981?style=for-the-badge&logo=android" alt="Platform" />
   <img src="https://img.shields.io/badge/UI-Jetpack_Compose_M3-0EA5E9?style=for-the-badge&logo=jetpackcompose" alt="Jetpack Compose" />
@@ -31,9 +31,9 @@ Designed with **100% offline-first architecture**, your sensitive data never lea
 
 Get the official, signed production APK:
 
-[![Download APK](https://img.shields.io/badge/Download-LifeOrganiser--v1.0.0--release.apk-4F46E5?style=for-the-badge&logo=googleplay&logoColor=white)](https://github.com/shintopc/LifeOrganiser/releases/download/v1.0.0/LifeOrganiser-v1.0.0-release.apk)
+[![Download APK](https://img.shields.io/badge/Download-LifeOrganiser--v1.0.1--release.apk-4F46E5?style=for-the-badge&logo=googleplay&logoColor=white)](https://github.com/shintopc/LifeOrganiser/releases/download/v1.0.1/LifeOrganiser-v1.0.1-release.apk)
 
-> Or visit the [GitHub Releases Page](https://github.com/shintopc/LifeOrganiser/releases/tag/v1.0.0) for verify checksums and assets.
+> Or visit the [GitHub Releases Page](https://github.com/shintopc/LifeOrganiser/releases/tag/v1.0.1) for verify checksums and assets.
 
 ---
 
@@ -130,3 +130,5 @@ Get the official, signed production APK:
 
 Designed and maintained by **ShintoPC Labs**.  
 Copyright © 2026 [Shinto PC](https://github.com/shintopc). All rights reserved.
+
+

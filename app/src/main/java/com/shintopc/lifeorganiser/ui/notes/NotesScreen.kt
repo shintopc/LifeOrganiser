@@ -208,11 +208,16 @@ fun NoteCard(
     note: NoteEntity,
     onClick: () -> Unit
 ) {
-    val cardColor = Color(note.color)
-    val isWhiteish = cardColor.red > 0.9f && cardColor.green > 0.9f && cardColor.blue > 0.9f
+    val isDefaultColor = note.color == 0 || note.color == 1 || note.color == Color(0xFFFFFFFF).toArgb()
+    val cardColor = if (isDefaultColor) MaterialTheme.colorScheme.surface else Color(note.color)
+    val isWhiteish = isDefaultColor || (cardColor.red > 0.85f && cardColor.green > 0.85f && cardColor.blue > 0.85f)
     
-    // Always use dark text for pastel notes, or adapt if you add dark colors.
-    val contentColor = Color.Black.copy(alpha = 0.8f)
+    val contentColor = if (isDefaultColor) {
+        MaterialTheme.colorScheme.onSurface
+    } else {
+        val brightness = (cardColor.red * 0.299f + cardColor.green * 0.587f + cardColor.blue * 0.114f)
+        if (brightness < 0.5f) Color.White else Color(0xFF0F172A)
+    }
 
     val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
     Card(
@@ -302,11 +307,18 @@ fun NoteEditorScreen(
         onDismiss()
     }
 
-    // Always dark text on these pastel notes
-    val contentColor = Color.Black
+    val isDefaultColor = color == 0 || color == 1 || color == Color(0xFFFFFFFF).toArgb()
+    val screenBg = if (isDefaultColor) MaterialTheme.colorScheme.background else Color(color)
+    val contentColor = if (isDefaultColor) {
+        MaterialTheme.colorScheme.onBackground
+    } else {
+        val c = Color(color)
+        val brightness = (c.red * 0.299f + c.green * 0.587f + c.blue * 0.114f)
+        if (brightness < 0.5f) Color.White else Color(0xFF0F172A)
+    }
 
     Scaffold(
-        containerColor = Color(color),
+        containerColor = screenBg,
         topBar = {
             TopAppBar(
                 title = {},
@@ -339,7 +351,7 @@ fun NoteEditorScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(color))
+                    .background(screenBg)
             ) {
                // Inline Color Picker (Animated)
                 androidx.compose.animation.AnimatedVisibility(

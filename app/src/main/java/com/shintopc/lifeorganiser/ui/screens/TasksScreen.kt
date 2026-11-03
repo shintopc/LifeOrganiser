@@ -40,6 +40,8 @@ import androidx.compose.ui.unit.sp
 import com.shintopc.lifeorganiser.data.model.Task
 import com.shintopc.lifeorganiser.data.model.TaskPriority
 import com.shintopc.lifeorganiser.ui.theme.TaskAccent
+import com.shintopc.lifeorganiser.ui.theme.EmergencyAccent
+import com.shintopc.lifeorganiser.ui.theme.ReminderAccent
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.horizontalScroll
 import java.time.format.DateTimeFormatter
@@ -215,7 +217,7 @@ fun TasksScreen(
 
                    LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(bottom = 80.dp)
+                        contentPadding = PaddingValues(bottom = 24.dp)
                    ) {
                        // PENDING
                        if (activeTasks.isNotEmpty()) {
@@ -464,10 +466,10 @@ fun TaskItemContent(
                          .clip(CircleShape)
                          .background(
                              when (task.priority) {
-                                 TaskPriority.HIGH -> Color.Red
-                                 TaskPriority.MEDIUM -> Color(0xFFFFC107)
-                                 TaskPriority.LOW -> Color.Green
-                             }
+                                  TaskPriority.HIGH -> EmergencyAccent
+                                  TaskPriority.MEDIUM -> ReminderAccent
+                                  TaskPriority.LOW -> TaskAccent
+                              }
                          )
                  )
 

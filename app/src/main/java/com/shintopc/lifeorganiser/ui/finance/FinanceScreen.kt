@@ -5,6 +5,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -174,36 +176,32 @@ fun FinanceScreen(
 
                 item {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         OutlinedButton(
                             onClick = onViewReport,
-                            modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Text("Analysis", fontSize = 12.sp)
+                            Text("Analysis", fontSize = 13.sp)
                         }
                         OutlinedButton(
                             onClick = { isBudgetDialogOpen = true },
-                            modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Text("Budget", fontSize = 12.sp)
+                            Text("Budget", fontSize = 13.sp)
                         }
                         OutlinedButton(
                             onClick = onViewDebts,
-                            modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Text("Borrow & Lend", fontSize = 12.sp)
+                            Text("Borrow & Lend", fontSize = 13.sp)
                         }
                         OutlinedButton(
                             onClick = onViewLoans,
-                            modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Text("Bank/EMI", fontSize = 12.sp)
+                            Text("Bank / EMI", fontSize = 13.sp)
                         }
                     }
                 }
@@ -211,7 +209,7 @@ fun FinanceScreen(
                 item {
                     val currentFilter by viewModel.transactionFilter.collectAsState()
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         listOf(
