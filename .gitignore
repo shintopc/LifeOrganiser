@@ -1,0 +1,52 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+build/
+app/build/
+
+# Gradle files
+.gradle/
+buildOutput.opts
+
+# Local configuration file (SDK paths)
+local.properties
+
+# Proguard folder
+proguard/
+
+# Log files and test outputs
+*.log
+*log*.txt
+test_results*.txt
+build_output*.txt
+crash_log.txt
+
+# Heap dumps (prevents committing 1.4GB memory dumps)
+*.hprof
+
+# IDE files
+*.iml
+.idea/
+.vscode/
+
+# Signing files
+*.jks
+*.keystore
+keystore.properties
+
+# OS files
+.DS_Store
+Thumbs.db

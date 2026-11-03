@@ -1,0 +1,68 @@
+================================================================================
+Life Organiser - Your Ultimate Personal Productivity & Management Companion
+================================================================================
+
+--------------------------------------------------------------------------------
+1. APP DETAILS
+--------------------------------------------------------------------------------
+Life Organiser is a robust, secure, and all-in-one productivity application 
+designed to help you manage every aspect of your life efficiently. From tracking 
+finances to securing your passwords and organizing daily tasks, Life Organiser 
+provides a unified platform with a focus on privacy and user experience.
+
+Key Features:
+- Biometric & PIN Security for app-wide protection.
+- Privacy-first design (screenshots and recent apps preview disabled).
+- Flexible Theme Support (Light, Dark, and System).
+- Modular design allowing you to manage and toggle features as needed.
+
+--------------------------------------------------------------------------------
+2. USER GUIDE
+--------------------------------------------------------------------------------
+Getting Started:
+- Secure Your Data: Upon first launch, set up your PIN or Biometric lock in the 
+  Security settings to ensure your sensitive data remains private.
+- Personalize: Visit the Profile section to add your details and customize the 
+  app's appearance in Settings.
+- Manage Modules: Use the "Manage Modules" screen to enable or disable specific 
+  features based on your needs.
+
+Navigation:
+- Dashboard (Home): Get a bird's-eye view of your day, including upcoming tasks 
+  and quick shortcuts.
+- Hub: Access all your modules from a central location.
+- Quick Actions: Use the floating action buttons (where available) to quickly 
+  add tasks, notes, or records.
+
+Best Practices:
+- Regularly back up your important documents in the Documents module.
+- Use the Finance module daily to maintain an accurate budget.
+- Set high-priority tasks in the Tasks module to stay focused on what matters.
+
+--------------------------------------------------------------------------------
+3. MODULES
+--------------------------------------------------------------------------------
+Life Organiser is divided into several specialized modules:
+
+- [Tasks]: Create, organize, and track your daily to-do lists. Includes a 
+  calendar view for long-term planning and priority management.
+- [Reminders]: Never miss an important event. Set time-sensitive reminders 
+  with notification alerts.
+- [Finance]: A comprehensive financial tracker. Manage loans, track expenses, 
+  monitor budgets, and visualize your spending habits.
+- [Notes]: A digital notebook for your thoughts, ideas, and quick checklists.
+- [Passwords]: A secure vault for your login credentials. Data is encrypted 
+  and protected by your app lock.
+- [Documents]: Digitalize and organize your physical documents. Store and 
+  view files directly within the app.
+- [Emergency]: Keep critical information at your fingertips. Store emergency 
+  contacts and basic medical details for quick access.
+- [Security]: Manage your app's protection settings, including PIN changes, 
+  biometric toggles, and auto-lock behavior.
+- [Profile]: View and edit your personal information and account details.
+- [Settings]: Global app configurations, including theme selection, 
+  notification preferences, and module management.
+
+================================================================================
+(c) 2026 ShintoPC Labs - Life Organiser
+================================================================================
